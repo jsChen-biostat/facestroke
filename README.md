@@ -75,9 +75,10 @@ powershell -ExecutionPolicy Bypass -File scripts\build-apk.ps1 -JavaHome "C:\pat
 
 包名 `com.facestroke.app`，`minSdk 24`，`targetSdk 36`。
 
-仓库不提供现成的 APK。不是懒得传：交付版里那两份质量/对称度模型是在一批不能再分发的数据上训出来的，
-放进 Release 等于换个地方把它们分发出去。自己在本机上构建不受影响，
-`web/public/models/` 缺文件时应用会退回规则通道并明说模型不可用。
+不想自己折腾的话，[Releases](https://github.com/jsChen-biostat/facestroke/releases) 里有一个
+用同样源码构建的 debug 包（31.6 MB）。它**不含模型权重**——交付版里那两份质量/对称度模型是在一批
+不能再分发的数据上训出来的，放进 Release 等于换个地方把它们分发出去。缺了权重应用不会崩，
+推断通道会被跳过并明说，靠规则通道和几何通道出结果。
 
 ---
 
