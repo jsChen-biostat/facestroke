@@ -1,0 +1,37 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 单元测试
+        # 7 个 badset 用例需要本地的回归图片，缺数据会自动 skip；
+        # 如果有用例真的失败，这一步会红，不要用 continue-on-error 掩盖。
+        run: npm test
+
+      - name: 源码静态检查（外链、内部路径泄漏）
+        run: node scripts/scan_sources.mjs
+
+      - name: 前端构建
+        # 只验证能不能构建，不跑 bootstrap-assets（CI 里没有 wasm 也能过 build）
+        run: npm run build
