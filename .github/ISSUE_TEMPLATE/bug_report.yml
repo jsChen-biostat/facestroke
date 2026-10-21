@@ -1,0 +1,79 @@
+name: Bug 报告
+description: 结果不对、装着跑不起来、界面出问题
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        贴之前请先看一眼 `docs/LIMITATIONS.md`，很多"结果不准"我们已经在里面承认过。
+
+        **不要上传人脸照片。** 需要复现材料时，请用棋盘格、玩偶，或者把照片裁到只剩额头。
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 期望看到什么、实际看到什么。
+      placeholder: 点"开始检测"之后一直停在"正在加载模型"，等了 30 秒也没变。
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 怎么复现
+      placeholder: |
+        1. 全新安装 → 同意授权
+        2. 走进有窗光的房间
+        3. 点开始检测
+    validations:
+      required: true
+
+  - type: input
+    id: device
+    attributes:
+      label: 设备与系统
+      description: 机型、Android 版本。WebView 版本在 chrome://version 里看。
+      placeholder: Redmi Note 12T Pro / Android 14 / WebView 130.0.6723.86
+    validations:
+      required: true
+
+  - type: dropdown
+    id: build
+    attributes:
+      label: 你是怎么装的
+      options:
+        - 自己打包的 debug APK
+        - 浏览器里跑（npm run dev）
+        - 别人给的 APK
+    validations:
+      required: true
+
+  - type: dropdown
+    id: capture
+    attributes:
+      label: 采集方式
+      options:
+        - 实时取景
+        - 从相册选图
+        - 还没走到采集这一步
+    validations:
+      required: false
+
+  - type: textarea
+    id: numbers
+    attributes:
+      label: 如果是结果不准
+      description: 结果页 → 医生视图 → 采集条件 里的那几个数字（亮度、清晰度、偏航、人脸占比）。
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: 确认
+      options:
+        - label: 我看了 docs/LIMITATIONS.md，我的问题不在已知限制里
+        - label: 我没有在这条 issue 里附任何人脸照片
+          required: true

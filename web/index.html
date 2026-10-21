@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <!-- viewport-fit + user-scalable kept ON: accessibility rule 06 section 2 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b6bcb" />
+  <meta name="description" content="FaceStroke 面部健康自检" />
+  <title>FaceStroke 面部健康自检</title>
+  <link rel="stylesheet" href="./src/styles/app.css" />
+</head>
+<body>
+  <!-- Persistent top bar with the back button. Hidden on entry screens. -->
+  <header id="appbar" class="appbar" hidden>
+    <button id="appbar-back" class="appbar-back" type="button">
+      <span aria-hidden="true">‹</span> 返回
+    </button>
+  </header>
+
+  <main id="app" class="app" role="main">
+    <!-- screens render here -->
+  </main>
+
+  <footer class="app-footer">
+    <span>不是医疗器械 · 结果仅供参考</span>
+    <button id="footer-disclaimer" class="linklike" type="button">免责声明</button>
+  </footer>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

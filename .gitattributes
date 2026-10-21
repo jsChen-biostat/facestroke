@@ -1,0 +1,13 @@
+# 统一换行：仓库里全部用 LF，Windows 上检出时也不转换成 CRLF
+* text=auto eol=lf
+
+# 二进制：不要让 git 尝试 diff 或合并
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.wasm binary
+*.task binary
+*.jar binary
+
+# Markdown 差异里显示函数名更好读
+*.md diff=markdown

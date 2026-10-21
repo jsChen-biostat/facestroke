@@ -1,0 +1,539 @@
+/* FaceStroke base styles.
+   Accessibility rules (06_ui_and_copy.md section 2):
+   - body text >= 18sp, primary button >= 28sp
+   - touch targets >= 48x48dp, primary button height >= 64px
+   - contrast >= 4.5:1 for body text
+   - must survive 200% font scaling without breaking layout
+   - semantic colours: green=normal, yellow=watch, orange=see a doctor, red=urgent
+     and colour is never the ONLY carrier of meaning (icon + text too)
+   No external fonts: system font stack only. */
+
+:root {
+  --c-bg: #f6f8fb;
+  --c-card: #ffffff;
+  --c-text: #14202e;
+  --c-muted: #4a5a6a;
+  --c-primary: #0b6bcb;
+  --c-primary-text: #ffffff;
+  --c-border: #d3dce6;
+
+  --tier-a: #1a7f4b; /* 未见异常 */
+  --tier-b: #b8860b; /* 建议关注 */
+  --tier-c: #c25203; /* 建议就医 */
+  --tier-d: #b3261e; /* 紧急 */
+
+  /* Font sizes MUST be rem-based, not px: the accessibility setting scales the
+     root font size via --scale, and an absolute px value would ignore it.
+     (T-17 found exactly that bug: only .small was scaling.) */
+  --fs-body: 1.125rem;  /* 18px at the default root size */
+  --fs-title: 1.5rem;   /* 24px */
+  --fs-huge: 1.75rem;   /* 28px */
+  --radius: 14px;
+  --gap: 16px;
+
+  /* 3 user-selectable text scales (settings screen) */
+  --scale: 1;
+}
+
+[data-fontsize='large'] { --scale: 1.25; }
+[data-fontsize='xlarge'] { --scale: 1.5; }
+
+* { box-sizing: border-box; }
+
+html { font-size: calc(16px * var(--scale)); }
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--gap);
+  min-height: 60vh;
+}
+
+/* --------------------------------------------------------- top bar / back */
+
+.appbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 8px var(--gap);
+  background: rgba(246, 248, 251, 0.94);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--c-border);
+}
+
+.appbar[hidden] { display: none; }
+
+.appbar-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 6px 16px 6px 10px;
+  font-size: 1.05rem;
+  color: var(--c-primary);
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.appbar-back span { font-size: 1.4rem; line-height: 1; }
+
+.app-footer {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--gap);
+  color: var(--c-muted);
+  font-size: 0.95rem;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.screen-title {
+  font-size: var(--fs-title);
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+.screen-sub {
+  color: var(--c-muted);
+  margin: 0 0 var(--gap);
+}
+
+.card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+/* Primary action: one per screen, big enough for shaky hands */
+.btn-primary {
+  display: block;
+  width: 100%;
+  min-height: 64px;
+  font-size: var(--fs-huge);
+  font-weight: 700;
+  color: var(--c-primary-text);
+  background: var(--c-primary);
+  border: none;
+  border-radius: var(--radius);
+  padding: 16px;
+  cursor: pointer;
+}
+.btn-primary:disabled { background: #9db6cc; cursor: not-allowed; }
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  font-size: var(--fs-body);
+  background: var(--c-card);
+  color: var(--c-text);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.linklike {
+  background: none;
+  border: none;
+  color: var(--c-primary);
+  text-decoration: underline;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 8px 4px;
+}
+
+.tier-a { color: var(--tier-a); }
+.tier-b { color: var(--tier-b); }
+.tier-c { color: var(--tier-c); }
+.tier-d { color: var(--tier-d); }
+
+.tier-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 2px solid currentColor;
+}
+
+.config-warning {
+  background: #fff3cd;
+  border-bottom: 2px solid #b8860b;
+  color: #5a4600;
+  padding: 10px var(--gap);
+  font-size: 0.95rem;
+}
+
+.small { font-size: 0.9rem; color: var(--c-muted); }
+.center { text-align: center; }
+.mt { margin-top: var(--gap); }
+.hidden { display: none; }
+
+/* ------------------------------------------------- legal text / settings */
+
+ol.legal, ul.legal {
+  margin: 0;
+  padding-left: 1.3em;
+}
+ol.legal li, ul.legal li {
+  margin-bottom: 0.7em;
+  line-height: 1.65;
+}
+
+.field-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--c-muted);
+}
+.field-input {
+  width: 100%;
+  min-height: 52px;
+  font-size: 1.05rem;
+  padding: 10px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-card);
+  color: var(--c-text);
+}
+.field-input:focus { outline: 2px solid var(--c-primary); outline-offset: 1px; }
+
+.form-note { margin-top: 8px; }
+
+/* question blocks on the intake screen */
+.q-block { margin-bottom: 6px; }
+.q-title { font-weight: 700; display: block; margin-bottom: 8px; }
+.opt {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-card);
+  margin-bottom: 8px;
+}
+.opt input { width: 22px; height: 22px; }
+.opt.picked { border-color: var(--c-primary); border-width: 2px; }
+
+/* ---------------------------------------------------------- capture screen */
+
+.capture-wrap {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+#cam {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* front camera preview is mirrored, like a mirror - matches user expectation */
+  transform: scaleX(-1);
+}
+
+.guide-ring {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 62%;
+  aspect-ratio: 3 / 4;
+  transform: translate(-50%, -50%);
+  border: 3px dashed rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.lamps {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 10px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+}
+
+.lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 0.95rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.lamp i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d9534f; /* not ok yet */
+  display: inline-block;
+}
+
+.lamp.on i { background: #3ec46d; }
+.lamp.on { background: rgba(62, 196, 109, 0.22); }
+
+.countdown {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+/* the guided action prompt: large, high contrast, and it can be skipped */
+.action-prompt {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 14px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.78), transparent);
+  text-align: center;
+}
+.action-prompt p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+}
+
+.hint-line {
+  font-size: 1.15rem;
+  margin: 12px 0;
+  min-height: 2.2em;
+  color: var(--c-text);
+}
+.hint-line.warn { color: var(--tier-c); font-weight: 600; }
+
+/* Never leave a black rectangle where the camera should be. This overlay covers
+   the video until the first frame actually arrives, and stays up with an
+   explanation if the preview never starts. */
+.preview-status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #e9ecf2;
+  background: #10131a;
+}
+.preview-status[hidden] { display: none; }
+
+/* a busy button must look busy: the shoot button used to give no feedback */
+.btn-busy { opacity: 0.65; }.btn-busy::after {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-left: 8px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  vertical-align: -0.15em;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+button[disabled] { cursor: default; }
+
+/* raw failure detail, shown only when something broke so the user can report it */
+.mono {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 0.82rem;
+  word-break: break-all;
+  color: var(--tier-c);
+  line-height: 1.5;
+}
+
+/* inline caution text (settings, result) */
+.warn { color: var(--tier-c); font-weight: 600; }
+
+/* nudge toward the system-camera button when live detection keeps failing */
+.btn-attention {
+  animation: attention 1.4s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(194, 82, 3, 0.35);
+}
+@keyframes attention {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(194, 82, 3, 0.25); }
+  50% { box-shadow: 0 0 0 8px rgba(194, 82, 3, 0.12); }
+}
+
+/* ----------------------------------------------------------- result screen */
+
+/* ------------------------------------------------------- analysis progress */
+
+.scan-wrap {
+  width: 100%;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #0b0d12;
+  margin-bottom: 12px;
+}
+
+.progress {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--c-border);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: var(--c-primary);
+  transition: width 0.45s ease;
+}
+
+.progress-caption {
+  margin: 8px 0 14px;
+  font-size: 1.05rem;
+  color: var(--c-text);
+  min-height: 1.6em;
+}
+
+/* --------------------------------------------- collapsible landmark panel */
+
+details.landmark-panel {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-card);
+  padding: 4px 12px;
+  margin-top: 12px;
+}
+details.landmark-panel > summary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+  list-style: none;
+}
+details.landmark-panel > summary::-webkit-details-marker { display: none; }
+details.landmark-panel > summary::after {
+  content: '▾';
+  float: right;
+  transition: transform 0.2s ease;
+}
+details.landmark-panel[open] > summary::after { transform: rotate(180deg); }
+
+.landmark-figure {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+  /* the capture preview is mirrored; the frozen view carries the same mirror */
+  transform: scaleX(-1);
+}
+
+.zone-branch {
+  border-left: 4px solid var(--c-primary);
+  padding: 6px 0 6px 12px;
+  margin: 12px 0;
+}
+.zone-branch b { display: block; font-size: 1.05rem; }
+.zone-branch .zone-value { font-weight: 700; }
+
+.advice-list {
+  margin: 6px 0 0;
+  padding-left: 1.2em;
+}
+.advice-list li {
+  margin: 6px 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* -------------------------------------------------------------- result */
+
+.score-big {
+  font-size: 4.2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin: 8px 0 4px;
+}
+
+.scale { margin-top: 14px; }
+.scale-track {
+  position: relative;
+  height: 14px;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--tier-d), var(--tier-c), var(--tier-b), var(--tier-a));
+  opacity: 0.85;
+}
+.scale-fill { display: none; }
+.scale-pin {
+  position: absolute;
+  top: -10px;
+  transform: translateX(-50%);
+  background: #14202e;
+  color: #fff;
+  border-radius: 8px;
+  padding: 2px 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.scale-ticks {
+  position: relative;
+  height: 1.6em;
+  margin-top: 6px;
+}
+.scale-ticks span {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 0.78rem;
+  color: var(--c-muted);
+  white-space: nowrap;
+}
+
+table.kv { width: 100%; border-collapse: collapse; margin-top: 6px; }
+table.kv td { padding: 4px 0; border-bottom: 1px solid var(--c-border); font-size: 1rem; }
+table.kv td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+
+.urgent-card { border: 3px solid var(--tier-d); }
+.urgent-text { font-size: 1.3em; font-weight: 700; margin-top: 0; }
+
+.tier-badge.tier-a { color: var(--tier-a); }
+.tier-badge.tier-b { color: var(--tier-b); }
+.tier-badge.tier-c { color: var(--tier-c); }
+.tier-badge.tier-d { color: var(--tier-d); }

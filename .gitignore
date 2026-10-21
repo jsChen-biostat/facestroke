@@ -1,0 +1,48 @@
+# 依赖与构建产物
+node_modules/
+dist/
+.vite/
+.vite-temp/
+__pycache__/
+*.pyc
+
+# Android
+web/android/app/build/
+web/android/build/
+web/android/.gradle/
+web/android/.kotlin/
+web/android/local.properties
+web/android/app/src/main/assets/public/
+web/android/app/src/main/assets/capacitor.config.json
+web/android/app/src/main/assets/capacitor.plugins.json
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# 由 scripts/bootstrap-assets.ps1 复制进来的第三方 wasm（体积大、可复现）
+web/public/mediapipe/*.wasm
+web/public/mediapipe/vision_wasm_*.js
+web/public/ort/
+
+# 模型权重：不随仓库分发
+web/public/models/*.onnx
+web/public/models/*.json
+!web/public/models/README.md
+
+# 数据集与训练产物：永远不要提交
+work/
+datasets/
+*.rgba
+*.npz
+*.pt
+*.onnx
+
+# 本机环境
+.venv/
+.pipcache/
+.tmp/
+.dev/
+.android-sdk/
+.DS_Store
+Thumbs.db
