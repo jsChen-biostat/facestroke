@@ -1,4 +1,4 @@
-# 把第三方 wasm 从 node_modules 复制到 web/public/
+﻿# 把第三方 wasm 从 node_modules 复制到 web/public/
 #
 # 为什么需要这一步：应用是完全离线的，不向任何 CDN 请求资源。
 # MediaPipe 和 onnxruntime 的 wasm 又太大（合计约 50 MB）、且能从 npm 包复现，

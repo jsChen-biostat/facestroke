@@ -1,4 +1,4 @@
-# 构建 debug APK
+﻿# 构建 debug APK
 #
 # 用法（在仓库根目录）：
 #   powershell -ExecutionPolicy Bypass -File scripts\build-apk.ps1 `
@@ -71,4 +71,6 @@ Write-Host ("APK    : {0}" -f $dest)
 Write-Host ("size   : {0:N2} MB" -f ((Get-Item $dest).Length / 1MB))
 Write-Host ("sha256 : {0}" -f $hash)
 Write-Host ''
-Write-Host '这是 debug 包，用调试密钥签名，不能上架。装到手机：adb install -r ' + $dest
+Write-Host '这是 debug 包，用调试密钥签名，不能上架。装到手机：'
+Write-Host ("  adb install -r `"{0}`"" -f $dest)
+exit 0
