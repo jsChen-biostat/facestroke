@@ -1,5 +1,8 @@
 # FaceStroke
 
+[![test](https://github.com/jsChen-biostat/facestroke/actions/workflows/test.yml/badge.svg)](https://github.com/jsChen-biostat/facestroke/actions/workflows/test.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 安卓手机上量一量左右脸差多少。478 个面部关键点 → 归一化 → 对称度；再加上一条面部区域颜色的测量。
 全部在手机本地算，照片不落盘、不上传、不需要账号。
 
@@ -143,6 +146,8 @@ npm test
 ```
 tests 153 … pass 146 … skipped 7 … fail 0
 ```
+
+CI（`.github/workflows/test.yml`）跑的就是这三步：测试、静态检查、前端构建。绿的才有合并。
 
 还有一个静态检查，扫一遍源码里有没有外部 URL、内部文档路径之类的泄漏：
 
